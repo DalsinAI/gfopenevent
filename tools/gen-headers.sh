@@ -1,7 +1,8 @@
 #!/bin/sh
 # Copyright (c) 2026 AmiCradle Team. GFOpenEvent, MIT licence (LICENSE).
 # SPDX-License-Identifier: MIT
-# include/clib, include/proto and include/inline from library/event_lib.sfd,
+# include/clib, include/proto, include/inline and library/event_lib.fd from
+# library/event_lib.sfd,
 # with the stove's sfdc.
 #   tools/gen-headers.sh          SFDC=path  another sfdc (default: on PATH,
 #                                            else the os32 stove's)
@@ -12,6 +13,9 @@ SFD=$ROOT/library/event_lib.sfd
 "$SFDC" -q --mode=clib -o "$ROOT/include/clib/event_protos.h" "$SFD"
 "$SFDC" -q --mode=proto -o "$ROOT/include/proto/event.h" "$SFD"
 "$SFDC" -q --target=m68k-amigaos --mode=macros -o "$ROOT/include/inline/event.h" "$SFD"
+# The FD too: the SFD has ==varargs, which a plain SFD-to-FD reading would
+# count as a function of its own.
+"$SFDC" -q --mode=fd -o "$ROOT/library/event_lib.fd" "$SFD"
 # Our banner in place of sfdc's, and sfdc's stock copyright block out.
 for f in include/clib/event_protos.h include/proto/event.h include/inline/event.h; do
     awk 'NR == 1 { print "/* Copyright (c) 2026 AmiCradle Team. GFOpenEvent, MIT licence (LICENSE).";

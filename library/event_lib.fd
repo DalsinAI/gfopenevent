@@ -1,0 +1,23 @@
+* "event.library"
+* Automatically generated FD (sfdc 1.12)! Do not edit!
+##base _EventBase
+##bias 30
+##public
+* "event.library" (GFOpenEvent): one wait for sockets, signals, ports, timers and Ctrl-C
+EV_CreateLoopA(tags)(a0)
+EV_DeleteLoop(loop)(a0)
+EV_AddSocket(loop,fd,events,hook)(a0,d0,d1,a1)
+EV_SetSocketEvents(watch,events)(a0,d0)
+EV_AddSignals(loop,mask,hook)(a0,d0,a1)
+EV_AddPort(loop,port,hook)(a0,a1,a2)
+EV_AddTimer(loop,secs,micros,flags,hook)(a0,d0,d1,d2,a1)
+EV_SetTimer(watch,secs,micros,flags)(a0,d0,d1,d2)
+EV_StopTimer(watch)(a0)
+EV_Remove(watch)(a0)
+EV_RunOnce(loop,timeout)(a0,a1)
+EV_Run(loop)(a0)
+EV_Stop(loop,code)(a0,d0)
+EV_Wake(loop)(a0)
+EV_Post(loop,hook,data)(a0,a1,a2)
+EV_GetTime(tv)(a0)
+##end

@@ -26,7 +26,7 @@ jobs:
       - name: Headers match the SFD
         run: |
           SFDC=/tmp/gfopenamigagcc-16.2.0-open6-x86_64-linux/bin/sfdc tools/gen-headers.sh
-          git diff --exit-code include
+          git diff --exit-code include library
       - name: Amiga build
         run: |
           CC=/tmp/gfopenamigagcc-16.2.0-open6-x86_64-linux/bin/m68k-amigaos-gcc \

@@ -1,4 +1,4 @@
-# event.library 1.0
+# event.library 1.1
 
 `#include <proto/event.h>`, base `EventBase`, `OpenLibrary("event.library", 1)`.
 

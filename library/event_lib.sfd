@@ -1,4 +1,4 @@
-==id $Id: event_lib.sfd 1.0 (6.11.2026) $
+==id $Id: event_lib.sfd 1.1 (6.11.2026) $
 * "event.library" (GFOpenEvent): one wait for sockets, signals, ports, timers and Ctrl-C
 ==base _EventBase
 ==basetype struct Library *

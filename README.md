@@ -27,11 +27,12 @@ It is the shared base for:
 
 ## Status, 6 November 2026
 
-**1.0, first version.**
+**1.1.** 1.0 was the first version; 1.1 adds the `$VER:` string, so
+`Version LIBS:event.library` shows it.
 
 | Part | State |
 | --- | --- |
-| `include/libraries/event.h`, `library/event_lib.sfd`, the `clib`, `proto` and `inline` headers | 1.0; the headers are made from the SFD by `tools/gen-headers.sh` |
+| `include/libraries/event.h`, `library/event_lib.sfd`, the `clib`, `proto` and `inline` headers | 1.1; the headers are made from the SFD by `tools/gen-headers.sh` |
 | `library/event_lib.c` | The loop: sockets, signals, ports, timers, posts, Ctrl-C |
 | `tests/host/` | The loop on the host with stubs for exec, timer.device, utility and bsdsocket: 110 checks |
 | `tests/amiga/evtest.c` (`EVTest`) | The loop on an Amiga: timers, repeat, signal, port, post from another process, UDP to itself, one wait when idle, Ctrl-C |

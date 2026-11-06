@@ -1,7 +1,7 @@
 /* Copyright (c) 2026 AmiCradle Team. GFOpenEvent, MIT licence (LICENSE).
  * SPDX-License-Identifier: MIT
  *
- * event.library 1.0: one event loop for a program (DESIGN.md).
+ * event.library 1.1: one event loop for a program (DESIGN.md).
  *
  * A loop keeps four lists of watches (sockets, signals, ports, posts) and
  * one list of armed timers, earliest first. EV_RunOnce() builds one wait
@@ -36,7 +36,10 @@ struct Device *TimerBase;
 int start(void) { return -1; }      /* run as a program: nothing (stays first in the file) */
 
 static const char lib_name[] = EVENTNAME;
-static const char lib_id[] = "event.library 1.0 (6.11.2026) GFOpenEvent, AmiCradle Team\r\n";
+/* "$VER: " first so the Version command finds it; the RomTag and lib_IdString
+ * take the text after it. */
+static const char lib_ver[] = "$VER: event.library 1.1 (6.11.2026) GFOpenEvent, AmiCradle Team\r\n";
+#define lib_id (lib_ver + 6)
 
 /* ---- the library base -------------------------------------------------------- */
 

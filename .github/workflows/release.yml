@@ -1,0 +1,57 @@
+# Copyright (c) 2026 AmiCradle Team. GFOpenEvent, MIT licence (LICENSE).
+# A GitHub release from main: the host tests, the Amiga build, then
+# tools/package.sh (lha, zip, SHA256SUMS) as the release's files.
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag, e.g. v1.1-rc2"
+        required: true
+      name:
+        description: "Package name, e.g. 1.1-rc2"
+        required: true
+      prerelease:
+        description: "Pre-release"
+        type: boolean
+        default: true
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Tools
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sudo apt-get update -q && sudo apt-get install -yq gcc-multilib jlha-utils zip
+          gh release download v16.2.0-open6 -R DalsinAI/gfopengcc -p 'gfopenamigagcc-16.2.0-open6-x86_64-linux.tar.xz' -D /tmp
+          tar -C /tmp -xf /tmp/gfopenamigagcc-16.2.0-open6-x86_64-linux.tar.xz
+          git clone -q --depth 1 https://github.com/DalsinAI/gfopensdk /tmp/gfopensdk
+      - name: Host tests
+        run: NDK=/tmp/gfopensdk/OpenNDK/Include_H tests/host/run.sh
+      - name: Amiga build
+        run: |
+          CC=/tmp/gfopenamigagcc-16.2.0-open6-x86_64-linux/bin/m68k-amigaos-gcc \
+          EXTRA_INC=/tmp/gfopensdk/OpenNDK/Include_H library/build.sh build/amiga
+          grep -a -q '\$VER: event.library' build/amiga/event.library
+      - name: Package
+        env:
+          NAME: ${{ inputs.name }}
+        run: tools/package.sh "$NAME" build/amiga build/release
+      - name: Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+          NAME: ${{ inputs.name }}
+          PRE: ${{ inputs.prerelease }}
+        run: |
+          flag=""; [ "$PRE" = "true" ] && flag="--prerelease"
+          unzip -p build/release/GFOpenEvent-"$NAME".zip GFOpenEvent/ReadMe.txt > build/notes.txt
+          gh release create "$TAG" --target "$GITHUB_SHA" $flag \
+            --title "GFOpenEvent $NAME" \
+            --notes-file build/notes.txt \
+            build/release/GFOpenEvent-"$NAME".lha build/release/GFOpenEvent-"$NAME".zip build/release/SHA256SUMS

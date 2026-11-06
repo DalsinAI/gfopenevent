@@ -36,7 +36,7 @@
 
 #define EVENTNAME        "event.library"
 #define EVENT_VERSION    1
-#define EVENT_REVISION   0
+#define EVENT_REVISION   1
 
 /* EV_CreateLoopA() tags */
 #define EVT_Dummy        (TAG_USER + 0x45560000)   /* 'EV' */

@@ -1,0 +1,32 @@
+==id $Id: event_lib.sfd 1.0 (6.11.2026) $
+* "event.library" (GFOpenEvent): one wait for sockets, signals, ports, timers and Ctrl-C
+==base _EventBase
+==basetype struct Library *
+==libname event.library
+==bias 30
+==public
+==include <exec/types.h>
+==include <exec/ports.h>
+==include <utility/tagitem.h>
+==include <utility/hooks.h>
+==include <devices/timer.h>
+==include <libraries/event.h>
+APTR EV_CreateLoopA(struct TagItem *tags)(a0)
+==varargs
+APTR EV_CreateLoop(Tag tag1, ...)(a0)
+VOID EV_DeleteLoop(APTR loop)(a0)
+APTR EV_AddSocket(APTR loop, LONG fd, ULONG events, struct Hook *hook)(a0,d0,d1,a1)
+VOID EV_SetSocketEvents(APTR watch, ULONG events)(a0,d0)
+APTR EV_AddSignals(APTR loop, ULONG mask, struct Hook *hook)(a0,d0,a1)
+APTR EV_AddPort(APTR loop, struct MsgPort *port, struct Hook *hook)(a0,a1,a2)
+APTR EV_AddTimer(APTR loop, ULONG secs, ULONG micros, ULONG flags, struct Hook *hook)(a0,d0,d1,d2,a1)
+VOID EV_SetTimer(APTR watch, ULONG secs, ULONG micros, ULONG flags)(a0,d0,d1,d2)
+VOID EV_StopTimer(APTR watch)(a0)
+VOID EV_Remove(APTR watch)(a0)
+LONG EV_RunOnce(APTR loop, struct timeval *timeout)(a0,a1)
+LONG EV_Run(APTR loop)(a0)
+VOID EV_Stop(APTR loop, LONG code)(a0,d0)
+VOID EV_Wake(APTR loop)(a0)
+BOOL EV_Post(APTR loop, struct Hook *hook, APTR data)(a0,a1,a2)
+VOID EV_GetTime(struct timeval *tv)(a0)
+==end
